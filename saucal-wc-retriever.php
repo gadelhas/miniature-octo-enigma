@@ -22,3 +22,7 @@ function saucal_autoloader( $class_name ) {
 }
 
 $saucal_retriever = new Saucal_WC_Retriever();
+
+register_activation_hook( __FILE__, array( "Saucal_WC_Retriever", "activation_hooks" ) );
+
+$saucal_retriever->plugin_init();
