@@ -30,7 +30,7 @@ class Saucal_Retriever_Template {
 	public function change_title_of_nickname_page( $title, $id ) {
 		global $wp_query;
 
-		if ( is_wc_endpoint_url( self::$endpoint ) && in_the_loop() ) {
+		if ( is_wc_endpoint_url( self::$endpoint ) ) {
 			$title = __( "Nicknames", "saucal" );
 		}
 
@@ -39,6 +39,12 @@ class Saucal_Retriever_Template {
 
 	public function add_endpoint_to_woocommerce() {
 		add_rewrite_endpoint( self::$endpoint, EP_PAGES );
+	}
+
+	public function add_nicknames_to_endpoint_list( $vars ) {
+		$vars[ self::$endpoint ] = self::$endpoint;
+
+		return $vars;
 	}
 
 	public function show_nicknames_page() {
