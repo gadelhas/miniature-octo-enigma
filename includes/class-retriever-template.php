@@ -32,7 +32,8 @@ class Saucal_Retriever_Template {
 	public function show_nicknames_page() {
 
 		if ( $_POST ) {
-			$result = call_user_func( array( "Saucal_Retriever_Main", "save_nickname_information" ), $_POST );
+			$result = call_user_func( array( Saucal_Retriever_Main::get_instance(), "save_nickname_information" ),
+				$_POST );
 			?>
             <div class="woocommerce-message woocommerce-message--info woocommerce-Message woocommerce-Message--info woocommerce-info">
 				<?php echo $result; ?>

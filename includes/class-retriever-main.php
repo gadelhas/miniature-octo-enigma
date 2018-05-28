@@ -36,11 +36,11 @@ class Saucal_Retriever_Main {
 		add_action( "saucal_retriever_get_new_data_event", array( $this, "retrieve_data_from_api" ) );
 
 		// Template stuff
-		add_action( "init", array( "Saucal_Retriever_Template", "add_endpoint_to_woocommerce" ) );
+		add_action( "init", array( Saucal_Retriever_Template::get_instance(), "add_endpoint_to_woocommerce" ) );
 		add_action( "woocommerce_account_nicknames_endpoint",
-			array( "Saucal_Retriever_Template", "show_nicknames_page" ) );
+			array( Saucal_Retriever_Template::get_instance(), "show_nicknames_page" ) );
 		add_filter( "woocommerce_account_menu_items",
-			array( "Saucal_Retriever_Template", "add_nicknames_to_menu" ) );
+			array( Saucal_Retriever_Template::get_instance(), "add_nicknames_to_menu" ) );
 	}
 
 	/**
