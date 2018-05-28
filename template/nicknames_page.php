@@ -6,8 +6,8 @@
 ?>
 <h3>Information about nicknames</h3>
 <?php
-foreach ( $nickname_results as $result ): ?>
-    <p><strong></strong></p>
+foreach ( $nickname_results as $key => $result ): ?>
+    <p><strong><?php echo $key; ?>:</strong> <?php echo $result; ?></p>
 <?php endforeach; ?>
 <hr>
 <h3>Add your nicknames here</h3>
