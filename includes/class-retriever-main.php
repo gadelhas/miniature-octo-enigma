@@ -49,13 +49,8 @@ class Saucal_Retriever_Main {
 	public function retrieve_data_from_api() {
 		// get all users with _nickname_list
 		$args = array(
-			"meta_query" => array(
-				array(
-					"key"     => "_nicknames_list",
-					"value"   => "",
-					"compare" => "EXISTS",
-				),
-			),
+			"meta_key"     => "_nicknames_list",
+			"meta_compare" => "EXISTS",
 		);
 
 		$users = get_users( $args );
