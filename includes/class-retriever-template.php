@@ -4,6 +4,8 @@ class Saucal_Retriever_Template {
 
 	protected static $instance = null;
 
+	protected static $endpoint = "nicknames";
+
 	/**
 	 * Access plugin instance. You can create further instances by calling
 	 * the constructor directly.
@@ -20,13 +22,23 @@ class Saucal_Retriever_Template {
 	}
 
 	public function add_nicknames_to_menu( $items ) {
-		$items["nicknames"] = __( "Nicknames", "saucal" );
+		$items[ self::$endpoint ] = __( "Nicknames", "saucal" );
 
 		return $items;
 	}
 
+	public function change_title_of_nickname_page( $title, $id ) {
+		global $wp_query;
+
+		if ( is_wc_endpoint_url( self::$endpoint ) && in_the_loop() ) {
+			$title = __( "Nicknames", "saucal" );
+		}
+
+		return $title;
+	}
+
 	public function add_endpoint_to_woocommerce() {
-		add_rewrite_endpoint( "nicknames", EP_PAGES );
+		add_rewrite_endpoint( self::$endpoint, EP_PAGES );
 	}
 
 	public function show_nicknames_page() {

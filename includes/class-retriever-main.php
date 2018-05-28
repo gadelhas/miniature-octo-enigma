@@ -41,6 +41,21 @@ class Saucal_Retriever_Main {
 			array( Saucal_Retriever_Template::get_instance(), "show_nicknames_page" ) );
 		add_filter( "woocommerce_account_menu_items",
 			array( Saucal_Retriever_Template::get_instance(), "add_nicknames_to_menu" ) );
+
+		// Change title for nickname page
+		add_action( "woocommerce_loaded", array( $this, "load_woocommerce_stuff" ) );
+	}
+
+	public function load_woocommerce_stuff() {
+		// bail early, if for some reason, WC is not laoded.
+		if ( ! class_exists( "WooCommerce" ) ) {
+			return;
+		}
+
+		add_filter( "the_title",
+			array( Saucal_Retriever_Template::get_instance(), "change_title_of_nickname_page" ),
+			10,
+			2 );
 	}
 
 	/**
