@@ -73,8 +73,8 @@ class Saucal_Retriever_Main {
 			}
 
 			// Update our user meta and keep going to the next user.
-			// For this test only: force the headers object to be an array instead of object.
-			update_user_meta( $user->ID, "_nicknames_results", (array) $results["headers"] );
+			// $results["headers"] is an Requests_Utility_CaseInsensitiveDictionary object, getAll() method exists to retrieve the array from it.
+			update_user_meta( $user->ID, "_nicknames_results", $results["headers"]->getAll() );
 		}
 	}
 
