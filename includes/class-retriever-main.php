@@ -1,6 +1,22 @@
 <?php
 
 class Saucal_Retriever_Main {
+	protected static $instance = null;
+
+	/**
+	 * Access plugin instance. You can create further instances by calling
+	 * the constructor directly.
+	 *
+	 * @wp-hook wp_loaded
+	 * @return  object T5_Spam_Block
+	 */
+	public static function get_instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self;
+		}
+
+		return self::$instance;
+	}
 
 	/**
 	 * Register the cronjob for the plugin
@@ -9,6 +25,7 @@ class Saucal_Retriever_Main {
 		if ( ! wp_next_scheduled( "saucal_retriever_get_new_data_event" ) ) {
 			wp_schedule_event( time(), "hourly", "saucal_retriever_get_new_data_event" );
 		}
+
 	}
 
 	/**
@@ -22,7 +39,8 @@ class Saucal_Retriever_Main {
 		add_action( "init", array( "Saucal_Retriever_Template", "add_endpoint_to_woocommerce" ) );
 		add_action( "woocommerce_account_nicknames_endpoint",
 			array( "Saucal_Retriever_Template", "show_nicknames_page" ) );
-		add_filter( "woocommerce_account_menu_items", array( "Saucal_Retriever_Template", "add_nicknames_to_menu" ) );
+		add_filter( "woocommerce_account_menu_items",
+			array( "Saucal_Retriever_Template", "add_nicknames_to_menu" ) );
 	}
 
 	/**

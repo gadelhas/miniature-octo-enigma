@@ -2,6 +2,23 @@
 
 class Saucal_Retriever_Template {
 
+	protected static $instance = null;
+
+	/**
+	 * Access plugin instance. You can create further instances by calling
+	 * the constructor directly.
+	 *
+	 * @wp-hook wp_loaded
+	 * @return  object T5_Spam_Block
+	 */
+	public static function get_instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self;
+		}
+
+		return self::$instance;
+	}
+
 	public function add_nicknames_to_menu( $items ) {
 		$items["nicknames"] = __( "Nicknames", "saucal" );
 
@@ -18,7 +35,7 @@ class Saucal_Retriever_Template {
 			$result = call_user_func( array( "Saucal_Retriever_Main", "save_nickname_information" ), $_POST );
 			?>
             <div class="woocommerce-message woocommerce-message--info woocommerce-Message woocommerce-Message--info woocommerce-info">
-                <?php echo $result; ?>
+				<?php echo $result; ?>
             </div>
 			<?php
 		}
