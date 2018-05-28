@@ -35,6 +35,10 @@ function saucal_autoloader( $class_name ) {
 
 spl_autoload_register( "saucal_autoloader" );
 
+// This is an WooCommerce plugin, bail early if WC is not loaded.
+if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+	return;
+}
 $saucal_retriever = new Saucal_Retriever_Main();
 
 register_activation_hook( __FILE__, array( "Saucal_Retriever_Main", "activation_hooks" ) );
