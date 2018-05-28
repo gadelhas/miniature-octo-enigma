@@ -1,11 +1,14 @@
 <?php
-
+/**
+ * Saucal retriever autoloader
+ * @param $class_name
+ */
 function saucal_autoloader( $class_name ) {
 	/**
 	 * If the class being requested does not start with our prefix,
 	 * we know it's not one in our project
 	 */
-	if ( 0 !== strpos( $class_name, 'Saucal_WC_' ) ) {
+	if ( 0 !== strpos( $class_name, 'Saucal_Retriever_' ) ) {
 		return;
 	}
 
@@ -21,8 +24,8 @@ function saucal_autoloader( $class_name ) {
 	}
 }
 
-$saucal_retriever = new Saucal_WC_Retriever();
+$saucal_retriever = new Saucal_Retriever_Main();
 
-register_activation_hook( __FILE__, array( "Saucal_WC_Retriever", "activation_hooks" ) );
+register_activation_hook( __FILE__, array( "Saucal_Retriever_Main", "activation_hooks" ) );
 
 $saucal_retriever->plugin_init();
