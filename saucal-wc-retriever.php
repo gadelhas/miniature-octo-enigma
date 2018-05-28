@@ -1,6 +1,14 @@
 <?php
+/*
+ * Plugin name: Sau/Cal WooCommerce information Retriever
+ * Description: This is a plugin made while testing for Sau/Cal
+ * Plugin Author: Mario Santos
+ * Version: 1.0.0
+ */
+
 /**
  * Saucal retriever autoloader
+ *
  * @param $class_name
  */
 function saucal_autoloader( $class_name ) {
@@ -12,8 +20,9 @@ function saucal_autoloader( $class_name ) {
 		return;
 	}
 
-	$file_name = str_replace( "Saucal_WC_", "", $class_name );
-
+	$file_name = str_replace( array( "Saucal_", "_" ),
+		array( "", "-" ),
+		$class_name );
 	// Compile our path from the current location
 	$file = dirname( __FILE__ ) . '/includes/class-' . $file_name . '.php';
 
@@ -23,6 +32,8 @@ function saucal_autoloader( $class_name ) {
 		require( $file );
 	}
 }
+
+spl_autoload_register( "saucal_autoloader" );
 
 $saucal_retriever = new Saucal_Retriever_Main();
 
