@@ -20,6 +20,8 @@ class Saucal_Retriever_Main {
 
 		// Template stuff
 		add_action( "init", array( "Saucal_Retriever_Template", "add_endpoint_to_woocommerce" ) );
+		add_action( "woocommerce_account_nicknames_endpoint",
+			array( "Saucal_Retriever_Template", "show_nicknames_page" ) );
 		add_filter( "woocommerce_account_menu_items", array( "Saucal_Retriever_Template", "add_nicknames_to_menu" ) );
 	}
 
