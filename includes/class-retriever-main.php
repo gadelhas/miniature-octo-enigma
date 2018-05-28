@@ -26,18 +26,6 @@ class Saucal_Retriever_Main {
 	}
 
 	/**
-	 * Register a new API Endpoint
-	 */
-	public function api_register_endpoints() {
-		register_rest_route( "saucal/retriever/v1",
-			"/nicknames",
-			array(
-				"methods"  => "POST",
-				"callback" => array( $this, "save_nickname_information" ),
-			) );
-	}
-
-	/**
 	 * Cronjob function that retrieves all the data from the API.
 	 */
 	public function retrieve_data_from_api() {
@@ -79,11 +67,11 @@ class Saucal_Retriever_Main {
 
 	public function save_nickname_information() {
 		$request  = $_POST;
-		$wp_nonce = $request["_wp_nonce"];
+		$wp_nonce = $request["_wpnonce"];
 
 		// Check if nonce is correct and exists.
 		if ( ! isset( $wp_nonce ) || ! wp_verify_nonce( $wp_nonce, "saucal_retriever" ) ) {
-			return;
+			return "Oops! No WP_Nonce not valid!";
 		}
 
 		$nickname_list = isset( $request["nicknames_list"] ) ? $request["nicknames_list"] : "";
@@ -95,7 +83,7 @@ class Saucal_Retriever_Main {
 		if ( strlen( $nickname_list ) == 0 ) {
 			delete_user_meta( get_current_user_id(), "_nicknames_list" );
 
-			return;
+			return "Nickname list deleted successfully!";
 		}
 
 		// Explode each line to an array element.
@@ -103,6 +91,6 @@ class Saucal_Retriever_Main {
 
 		update_user_meta( get_current_user_id(), "_nicknames_list", $elements );
 
-		return;
+		return "Nickname list updated successfully!";
 	}
 }

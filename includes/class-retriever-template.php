@@ -14,11 +14,11 @@ class Saucal_Retriever_Template {
 
 	public function show_nicknames_page() {
 
-		if ( $_POST["_wp_nonce"] ) {
-			call_user_func( array( "Saucal_Retriever_Main", "save_nickname_information" ) );
+		if ( $_POST ) {
+			$result = call_user_func( array( "Saucal_Retriever_Main", "save_nickname_information" ), $_POST );
 			?>
             <div class="woocommerce-message woocommerce-message--info woocommerce-Message woocommerce-Message--info woocommerce-info">
-                <p>Information updated.</p>
+                <?php echo $result; ?>
             </div>
 			<?php
 		}
