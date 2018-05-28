@@ -26,6 +26,18 @@ class Saucal_Retriever_Main {
 	}
 
 	/**
+	 * Register a new API Endpoint
+	 */
+	public function api_register_endpoints() {
+		register_rest_route( "saucal/retriever/v1",
+			"/nicknames",
+			array(
+				"methods"  => "POST",
+				"callback" => array( $this, "save_nickname_information" ),
+			) );
+	}
+
+	/**
 	 * Cronjob function that retrieves all the data from the API.
 	 */
 	public function retrieve_data_from_api() {
@@ -65,4 +77,32 @@ class Saucal_Retriever_Main {
 	}
 
 
+	public function save_nickname_information() {
+		$request  = $_POST;
+		$wp_nonce = $request["_wp_nonce"];
+
+		// Check if nonce is correct and exists.
+		if ( ! isset( $wp_nonce ) || ! wp_verify_nonce( $wp_nonce, "saucal_retriever" ) ) {
+			return;
+		}
+
+		$nickname_list = isset( $request["nicknames_list"] ) ? $request["nicknames_list"] : "";
+
+		$nickname_list = sanitize_textarea_field( $nickname_list );
+
+		// If input has no values, delete user meta for this key, and bail early.
+		// We make sure we delete, so when we get all users with this key in the cronjob we don't get empty meta values.
+		if ( strlen( $nickname_list ) == 0 ) {
+			delete_user_meta( get_current_user_id(), "_nicknames_list" );
+
+			return;
+		}
+
+		// Explode each line to an array element.
+		$elements = explode( "\n", str_replace( "\r", "", $nickname_list ) );
+
+		update_user_meta( get_current_user_id(), "_nicknames_list", $elements );
+
+		return;
+	}
 }
